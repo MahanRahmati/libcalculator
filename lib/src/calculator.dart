@@ -56,6 +56,11 @@ class Calculator {
       final List<Token> tokens = _tokenizer.tokenize(text);
       final List<Token> postfix = _parser.parseToPostfix(tokens);
       final double result = _evaluator.evaluate(postfix);
+
+      if (result.abs() >= 1e15 || (result != 0 && result.abs() < 0.0001)) {
+        return result.toStringAsExponential(10);
+      }
+
       final double roundedResult = double.parse(result.toStringAsFixed(10));
       return roundedResult % 1 == 0
           ? roundedResult.toInt().toString()

@@ -39,7 +39,8 @@ class Evaluator {
 
     for (final Token token in postfix) {
       if (token.isNumber) {
-        stack.add(double.parse(token.value));
+        final String normalizedValue = token.value.replaceAll('E', 'e');
+        stack.add(double.parse(normalizedValue));
       } else {
         if (stack.length < 2) {
           throw CalculatorError('Invalid expression');

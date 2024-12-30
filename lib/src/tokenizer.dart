@@ -43,10 +43,21 @@ class Tokenizer {
     for (int i = 0; i < text.length; i++) {
       final String char = text[i];
 
-      if (_isDigit(char) || char == '.') {
+      if (_isDigit(char) ||
+          char == '.' ||
+          _isScientificNotation(char, text, i)) {
         currentNumber += char;
+        if ((char == 'e' || char == 'E') && i + 1 < text.length) {
+          final String nextChar = text[i + 1];
+          if (nextChar == '+' || nextChar == '-') {
+            currentNumber += nextChar;
+            i++; // Skip the next character since we've handled it
+          }
+        }
       } else {
         if (currentNumber.isNotEmpty) {
+          // Validate the number before creating token
+          double.parse(currentNumber); // This will throw if invalid
           tokens.add(Token.number(currentNumber));
           currentNumber = '';
         }
@@ -64,6 +75,8 @@ class Tokenizer {
     }
 
     if (currentNumber.isNotEmpty) {
+      // Validate the final number before creating token
+      double.parse(currentNumber); // This will throw if invalid
       tokens.add(Token.number(currentNumber));
     }
 
@@ -72,4 +85,20 @@ class Tokenizer {
 
   bool _isDigit(final String char) => '0123456789'.contains(char);
   bool _isOperator(final String char) => '+-*/'.contains(char);
+  bool _isScientificNotation(String char, String text, int position) {
+    if (char != 'e' && char != 'E') {
+      return false;
+    }
+    if (position == 0 || position == text.length - 1) {
+      return false;
+    }
+
+    // Check if previous char is digit and next char is digit or sign
+    final bool prevIsDigit = _isDigit(text[position - 1]);
+    final String nextChar = text[position + 1];
+    final bool nextIsValid =
+        _isDigit(nextChar) || nextChar == '+' || nextChar == '-';
+
+    return prevIsDigit && nextIsValid;
+  }
 }

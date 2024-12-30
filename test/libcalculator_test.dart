@@ -83,5 +83,25 @@ void main() {
       expect(calculator.calculate('-10/2'), '-5');
       expect(calculator.calculate('-2.5+1.5'), '-1');
     });
+
+    test('Large number operations', () {
+      expect(
+          calculator.calculate('1234567890 * 1234567890'), '1.5241578750e+18');
+      expect(calculator.calculate('999999999 * 999999999'), '9.9999999800e+17');
+      expect(calculator.calculate('1e8 * 1e8'), '1.0000000000e+16');
+      expect(calculator.calculate('1e15 + 1e15'), '2.0000000000e+15');
+    });
+
+    test('Very small number operations', () {
+      expect(calculator.calculate('1 / 1e17'), '1.0000000000e-17');
+      expect(calculator.calculate('1e-8 * 1e-8'), '1.0000000000e-16');
+      expect(calculator.calculate('1e-15 + 1e-15'), '2.0000000000e-15');
+    });
+
+    test('Mixed large and small number operations', () {
+      expect(calculator.calculate('1e16 * 1e-16'), '1');
+      expect(calculator.calculate('1e20 / 1e5'), '1.0000000000e+15');
+      expect(calculator.calculate('1e-15 * 1e15'), '1');
+    });
   });
 }
