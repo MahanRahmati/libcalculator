@@ -19,7 +19,7 @@ Add this package to your project's dependencies:
 
 ```yaml
 dependencies:
-  libcalculator: ^1.0.0
+  libcalculator: ^1.2.0
 ```
 
 Then run:
