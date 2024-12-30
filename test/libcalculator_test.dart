@@ -76,5 +76,12 @@ void main() {
       expect(calculator.calculate('2+3)'), startsWith('Error:'));
       expect(calculator.calculate('((2+3)'), startsWith('Error:'));
     });
+
+    test('Leading negative numbers', () {
+      expect(calculator.calculate('-2+3'), '1');
+      expect(calculator.calculate('-5*2'), '-10');
+      expect(calculator.calculate('-10/2'), '-5');
+      expect(calculator.calculate('-2.5+1.5'), '-1');
+    });
   });
 }

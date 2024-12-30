@@ -44,12 +44,15 @@ class Calculator {
   /// calculator.calculate("1/0") // Returns "Error: Division by zero"
   /// ```
   String calculate(final String input) {
-    final String text = input.replaceAll(' ', '');
+    String text = input.replaceAll(' ', '');
     if (text.isEmpty) {
       return '';
     }
 
     try {
+      if (text.startsWith('-')) {
+        text = '0$text';
+      }
       final List<Token> tokens = _tokenizer.tokenize(text);
       final List<Token> postfix = _parser.parseToPostfix(tokens);
       final double result = _evaluator.evaluate(postfix);
