@@ -84,6 +84,20 @@ void main() {
       expect(calculator.calculate('-2.5+1.5'), '-1');
     });
 
+    test('Operations with negative numbers after operators', () {
+      expect(calculator.calculate('3*-2'), '-6');
+      expect(calculator.calculate('6/-2'), '-3');
+      expect(calculator.calculate('5+-2'), '3');
+      expect(calculator.calculate('1--2'), '3');
+      expect(calculator.calculate('2*-3*-4'), '24');
+      expect(calculator.calculate('10/-2*-3'), '15');
+      expect(calculator.calculate('8/-4*-2'), '4');
+      expect(calculator.calculate('15+-5*-2'), '25');
+      expect(calculator.calculate('20/-5/-2'), '2');
+      expect(calculator.calculate('3*-2*-3*-1'), '-18');
+      expect(calculator.calculate('10+-3*-2+-4'), '12');
+    });
+
     test('Large number operations', () {
       expect(
           calculator.calculate('1234567890 * 1234567890'), '1.5241578750e+18');

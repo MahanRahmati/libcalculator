@@ -50,6 +50,10 @@ class Calculator {
     }
 
     try {
+      text = text.replaceAll('*-', '*(0-1)*');
+      text = text.replaceAll('/-', '/(0-1)/');
+      text = text.replaceAll('+-', '-(1)*');
+      text = text.replaceAll('--', '+(1)*');
       if (text.startsWith('-')) {
         text = '0$text';
       }
